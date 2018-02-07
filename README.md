@@ -8,7 +8,9 @@ Part of the [TuxML](https://github.com/TuxML) Project to predict kernel properti
 
 ## Prerequisites
 
-You need `scikit-learn` :
+Get a `allyes.config` from your kernel version and put it in the root folder
+
+You need a whole lot of libs :
 
     pip3 install scikit-learn numpy scipy
 
