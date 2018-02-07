@@ -10,7 +10,6 @@ library(randomForestExplainer)
 
 # TODO we assume that a res.csv exists (typically a CSV extracted from the database)
 res <- read.csv("/Users/macher1/Documents/SANDBOX/csvTuxml/ProjetIrma/csvgen/res3.csv") 
-res <- res[-c(21, 22), ] # HACK: we should actually delete this entry in the databse
 
 res$KERNEL_SIZE <- res$KERNEL_SIZE / 1048576
 # res <- subset(res, KERNEL_SIZE != 0)
