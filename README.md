@@ -12,8 +12,11 @@ Get a `allyes.config` from your kernel version and put it in the root folder
 
 You need a whole lot of libs :
 
-    pip3 install scikit-learn numpy scipy
+    pip3 install scikit-learn numpy scipy mysqlclient
 
 ## Usage
 
-run `csvGeneratorBdd.py` to generate a csv for the ML to use
+    ./csvGeneratorBdd.py > file.csv
+    ./statsTuxML.py file.csv
+
+(`csvGeneratorBdd.py` can be pretty long, should take ~2 minutes for 1600 entries)

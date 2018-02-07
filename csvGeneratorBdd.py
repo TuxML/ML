@@ -85,8 +85,15 @@ def printCSV(numProperties, properties):
 
 
 if __name__ == "__main__":
+    ttyfd = open("/dev/tty", "w")
+    print("Getting data from DB...", end='', flush=True, file=ttyfd)
     results = getFromDB()
+    print("Done", file=ttyfd)
+    print("Extracting properties...", end='', flush=True, file=ttyfd)
     numProperties = len(results)
     properties = getPropertiesNames("allyes.config", numProperties)
     properties = fillProperties(properties, numProperties, results)
+    print("Done", file=ttyfd)
+    print("Writing CSV...", end='', flush=True, file=ttyfd)
     printCSV(numProperties, properties)
+    print("Done", file=ttyfd)

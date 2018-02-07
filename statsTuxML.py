@@ -5,6 +5,8 @@ import argparse
 
 def stats(csvFilename):
     res = csv.reader(open(csvFilename))
+    for row in res:
+        print(row)
 
 
 
