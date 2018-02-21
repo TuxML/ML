@@ -8,7 +8,7 @@ Part of the [TuxML](https://github.com/TuxML) Project to predict kernel properti
 
 ## Prerequisites
 
-You need a whole lot of libs :
+`python3` and a whole lot of libs :
 
     pip3 install scikit-learn numpy scipy
 
