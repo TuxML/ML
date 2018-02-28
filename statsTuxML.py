@@ -2,6 +2,11 @@
 
 import csv
 import argparse
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+
+
 def nbMinLine(dico) :
 	res = 0
 	for i in dico :
@@ -16,21 +21,45 @@ def nbYinLine(dico) :
 			res += 1
 	return res
 
+def graphInfo(tab1, tab2, title=""):
+	plt.scatter(tab1, tab2)
+	plt.title(title)
+	return np.corrcoef(tab1, tab2)
+
 def stats(csvFilename):
+	"""Generation de statistiques sur les compilations effectuees :
+	* Nombre de compilations
+	* Informations sur les options activees en module
+	* Informations sur les options activees en dur
+	* Informations sur la taille des kernels generes
+	* Informations sur le temps de compilation"""
 	with open(csvFilename) as csvFile :
 		reader = csv.DictReader(csvFile)
+		
 		nbLigne = 0
 		nbM = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
 		nbY = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
 		nbMY = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
 		kSize = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
 		compTime = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
+		tabCompTime = []
+		tabSize = []
+		tabY = []
+		tabM = []
+		tabActive = [] 
+		
 		for ligne in reader :
 			nbLigne += 1
 			tmpM = nbMinLine(ligne)
 			tmpY = nbYinLine(ligne)
 			ligne["KERNEL_SIZE"] = str(int(ligne["KERNEL_SIZE"]) / (2**20)) #Conversion de la taille du noyau en Mo
 			tmpTime = float(ligne["COMPILE_TIME"])
+			
+			tabCompTime.append(tmpTime)
+			tabSize.append(float(ligne["KERNEL_SIZE"]))
+			tabY.append(tmpY)
+			tabM.append(tmpM)
+			tabActive.append(tmpM+tmpY)
 			
 			nbM["Total"] += tmpM
 			if tmpM < nbM["Min"] :
@@ -67,8 +96,45 @@ def stats(csvFilename):
 		nbMY["Mean"] = nbMY["Total"]/nbLigne
 		kSize["Mean"] = kSize["Total"]/nbLigne
 		compTime["Mean"] = compTime["Total"]/nbLigne
+		
+		matplotlib.style.use('ggplot')
+		
+		coef1 = graphInfo(tabSize, tabCompTime, 'Temps de compilation en fonction de la taille du kernel')
+		plt.show()
+		print(coef1)
+		
+		plt.subplot(3,2,1)
+		coef2 = graphInfo(tabActive, tabCompTime, 'Temps de compilation en fonction des options actives(y/m)')
+		print(coef2)
+		plt.subplot(3,2,2)
+		plt.scatter(tabActive, tabSize)
+		plt.title('Taille du kernel en fonction des options actives(y/m)')
+		
+		print(np.corrcoef(tabY, tabCompTime))
+		plt.subplot(3,2,3)
+		plt.scatter(tabY, tabCompTime)
+		plt.title('Temps de compilation en fonction des options actives(y)')
+		print(np.corrcoef(tabY, tabSize))
+		plt.subplot(3,2,4)
+		plt.scatter(tabY, tabSize)
+		plt.title('Taille du kernel en fonction des options actives(y)')
+		
+		print(np.corrcoef(tabM, tabCompTime))
+		plt.subplot(3,2,5)
+		plt.scatter(tabM, tabCompTime)
+		plt.title('Temps de compilation en fonction des options actives(m)')
+		print(np.corrcoef(tabM, tabSize))
+		plt.subplot(3,2,6)
+		plt.scatter(tabM, tabSize)
+		plt.title('Taille du kernel en fonction des options actives(m)')
+		
+		plt.show()
+		
 		return (nbLigne, nbM, nbY, nbMY, kSize, compTime)
 
+		
+
+		
 if __name__ == "__main__":
 	parser = argparse.ArgumentParser(description=
 		"Generates graphs and stuff about compilations from a CSV file")
@@ -76,6 +142,6 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	statistiques = stats(args.csv_filename)
-#	print(statistiques)
+	print(statistiques)
 
 
