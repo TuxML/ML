@@ -101,32 +101,30 @@ def stats(csvFilename):
 		
 		coef1 = graphInfo(tabSize, tabCompTime, 'Temps de compilation en fonction de la taille du kernel')
 		plt.show()
-		print(coef1)
+		print(coef1[0][1])
 		
 		plt.subplot(3,2,1)
 		coef2 = graphInfo(tabActive, tabCompTime, 'Temps de compilation en fonction des options actives(y/m)')
-		print(coef2)
+		print(coef2[0][1])
 		plt.subplot(3,2,2)
-		plt.scatter(tabActive, tabSize)
-		plt.title('Taille du kernel en fonction des options actives(y/m)')
+		coef3 = graphInfo(tabActive, tabSize, 'Taille du kernel en fonction des options actives(y/m)')
+		print(coef3[0][1])
 		
-		print(np.corrcoef(tabY, tabCompTime))
+		
 		plt.subplot(3,2,3)
-		plt.scatter(tabY, tabCompTime)
-		plt.title('Temps de compilation en fonction des options actives(y)')
-		print(np.corrcoef(tabY, tabSize))
+		coef4 = graphInfo(tabY, tabCompTime, 'Temps de compilation en fonction des options actives(y)')
+		print(coef4[0][1])
 		plt.subplot(3,2,4)
-		plt.scatter(tabY, tabSize)
-		plt.title('Taille du kernel en fonction des options actives(y)')
+		coef5 = graphInfo(tabY, tabSize, 'Taille du kernel en fonction des options actives(y)')
+		print(coef5[0][1])
 		
-		print(np.corrcoef(tabM, tabCompTime))
+		
 		plt.subplot(3,2,5)
-		plt.scatter(tabM, tabCompTime)
-		plt.title('Temps de compilation en fonction des options actives(m)')
-		print(np.corrcoef(tabM, tabSize))
+		coef6 = graphInfo(tabM, tabCompTime, 'Temps de compilation en fonction des options actives(m)')
+		print(coef6[0][1])
 		plt.subplot(3,2,6)
-		plt.scatter(tabM, tabSize)
-		plt.title('Taille du kernel en fonction des options actives(m)')
+		coef7 = graphInfo(tabM, tabSize, 'Taille du kernel en fonction des options actives(m)')
+		print(coef7[0][1])
 		
 		plt.show()
 		
