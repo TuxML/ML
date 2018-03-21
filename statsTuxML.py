@@ -22,7 +22,7 @@ def nbYinLine(dico) :
 	return res
 
 def graphInfo(tab1, tab2, title=""):
-	plt.scatter(tab1, tab2)
+	plt.scatter(tab1, tab2, s=20, edgecolor="black", c="darkorange")
 	plt.title(title)
 	return np.corrcoef(tab1, tab2)
 
@@ -100,46 +100,45 @@ def stats(csvFilename):
 		matplotlib.style.use('ggplot')
 		
 		coef1 = graphInfo(tabSize, tabCompTime, 'Temps de compilation en fonction de la taille du kernel')
+		plt.xlabel("Taille kernel (Mo)")
+		plt.ylabel("Temps compilation (s)")
 		plt.show()
-		print(coef1[0][1])
+		print("Coefficient de correlation :", coef1[0][1])
 		
-		plt.subplot(3,2,1)
 		coef2 = graphInfo(tabActive, tabCompTime, 'Temps de compilation en fonction des options actives(y/m)')
-		print(coef2[0][1])
-		plt.subplot(3,2,2)
-		coef3 = graphInfo(tabActive, tabSize, 'Taille du kernel en fonction des options actives(y/m)')
-		print(coef3[0][1])
-		
-		
-		plt.subplot(3,2,3)
-		coef4 = graphInfo(tabY, tabCompTime, 'Temps de compilation en fonction des options actives(y)')
-		print(coef4[0][1])
-		plt.subplot(3,2,4)
-		coef5 = graphInfo(tabY, tabSize, 'Taille du kernel en fonction des options actives(y)')
-		print(coef5[0][1])
-		
-		
-		plt.subplot(3,2,5)
-		coef6 = graphInfo(tabM, tabCompTime, 'Temps de compilation en fonction des options actives(m)')
-		print(coef6[0][1])
-		plt.subplot(3,2,6)
-		coef7 = graphInfo(tabM, tabSize, 'Taille du kernel en fonction des options actives(m)')
-		print(coef7[0][1])
-		
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Temps compilation (s)")
 		plt.show()
+		print("Coefficient de correlation :", coef2[0][1])
+		coef3 = graphInfo(tabActive, tabSize, 'Taille du kernel en fonction des options actives(y/m)')
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Taille kernel (Mo)")
+		plt.show()
+		print("Coefficient de correlation :", coef3[0][1])
+		
+		
+		coef4 = graphInfo(tabY, tabCompTime, 'Temps de compilation en fonction des options actives(y)')
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Temps compilation (s)")
+		plt.show()
+		print("Coefficient de correlation :", coef4[0][1])
+		coef5 = graphInfo(tabY, tabSize, 'Taille du kernel en fonction des options actives(y)')
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Taille kernel (Mo)")
+		plt.show()
+		print("Coefficient de correlation :", coef5[0][1])
+		
+		
+		coef6 = graphInfo(tabM, tabCompTime, 'Temps de compilation en fonction des options actives(m)')
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Temps compilation (s)")
+		plt.show()
+		print("Coefficient de correlation :", coef6[0][1])
+		coef7 = graphInfo(tabM, tabSize, 'Taille du kernel en fonction des options actives(m)')
+		plt.xlabel("Nombre options actives")
+		plt.ylabel("Taille kernel (Mo)")
+		plt.show()
+		print("Coefficient de correlation :", coef7[0][1])
 		
 		return (nbLigne, nbM, nbY, nbMY, kSize, compTime)
-
-		
-
-		
-if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description=
-		"Generates graphs and stuff about compilations from a CSV file")
-	parser.add_argument("csv_filename", help="CSV file to read the data from")
-	args = parser.parse_args()
-
-	statistiques = stats(args.csv_filename)
-	print(statistiques)
-
 
