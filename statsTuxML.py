@@ -35,7 +35,7 @@ def stats(csvFilename):
 	* Informations sur le temps de compilation"""
 	with open(csvFilename) as csvFile :
 		reader = csv.DictReader(csvFile)
-		
+		#TODO Lecture d'une ligne pour avoir les types de chaque colonne du CSV
 		nbLigne = 0
 		nbM = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
 		nbY = {"Total": 0,"Min": 100000,"Max" : 0, "Mean" : 0}
